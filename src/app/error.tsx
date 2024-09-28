@@ -9,24 +9,26 @@ import styles from './error.module.scss'
 
 const Error = () => {
   return (
-    <Flex
-      vertical
-      justify='center'
-      align='center'
-      style={{height:'100%'}}
-    >
-      <Title>Упс, похоже котики уронили сервер, попробуйте позже</Title>
-      <div className={styles.imageWrapper}>
-        <Image
-          className={styles.image}
-          src='/server_cat.jpg'
-          alt='Server Cat'
-          width={1024}
-          height={1024}
-          priority
-        />
-      </div>
-    </Flex>
+    <div className='inner'>
+      <Flex
+        className='full-height'
+        vertical
+        justify='center'
+        align='center'
+      >
+        <Title>Упс, похоже котики уронили сервер, попробуйте позже</Title>
+        <div className={styles.imageWrapper}>
+          <Image
+            className={styles.image}
+            src='/server_cat.jpg'
+            alt='Server Cat'
+            width={1024}
+            height={1024}
+            priority
+          />
+        </div>
+      </Flex>
+    </div>
   )
 }
 

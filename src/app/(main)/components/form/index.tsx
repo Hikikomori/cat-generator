@@ -10,11 +10,12 @@ import {
   notification,
   Select,
   Slider,
-  Row, Tooltip,
+  Row,
+  Tooltip,
 } from 'antd'
 import cn from 'classnames'
 import { observer } from 'mobx-react-lite'
-import { FC, useContext, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { FormItem } from 'react-hook-form-antd'
 import queryString from 'query-string'
@@ -23,7 +24,7 @@ import FilterModal from './modals/Filter'
 import TextModal from './modals/Text'
 
 import { getCatImage } from '@/api/catImage'
-import { StoreContext } from '@/store/provider'
+import { useStore } from '@/hooks'
 import { getRandomArrayElement } from '@/utils'
 
 import styles from './form.module.scss'
@@ -83,8 +84,9 @@ const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
     id: storedId,
     setId,
     setParams,
-    setSrc
-  } = useContext(StoreContext);
+    setSrc,
+    setText
+  } = useStore();
   
   const {
     handleSubmit,
@@ -96,7 +98,8 @@ const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
   
   const [
     notificationApi,
-    notificationContextHolder] = useNotification()
+    notificationContextHolder
+  ] = useNotification()
   
   const [isLoading, setIsLoading] = useState(false)
   const [filterModalOpen, setFilterModalOpen] = useState(false)
@@ -160,11 +163,14 @@ const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
     }
     
     try {
-      const src = await getCatImage(id, text, queryString.stringify(params))
+      const paramsString = queryString.stringify(params)
+      
+      const src = await getCatImage(id, text, paramsString)
       setSubmittedType(type)
       setId(id)
-      setParams(params)
+      setParams(paramsString)
       setSrc(src)
+      setText(text)
     } catch (err) {
       notificationApi.error({
         description: 'Попробуйте ещё раз',

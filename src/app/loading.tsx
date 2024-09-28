@@ -6,9 +6,9 @@ import Image from 'next/image'
 const Loading = () => {
   return (
     <Flex
+      className='full-height'
       justify='center'
       align='center'
-      style={{height:'100%'}}
     >
       <Image
         src='/loading.gif'

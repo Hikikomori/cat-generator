@@ -1,13 +1,7 @@
+import { getCatImageUrl } from '@/utils'
+
 export const getCatImage = async (id: string, text?: string, params?: string): Promise<string> => {
-  let url = `${process.env.NEXT_PUBLIC_DOMAIN}/cat/${id}`
-  
-  if (text) {
-    url += `/says/${text}`
-  }
-  
-  if (params) {
-    url += `?${params}`
-  }
+  const url = getCatImageUrl(id, text, params)
   
   const response = await fetch(url)
   

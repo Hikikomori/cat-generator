@@ -1,9 +1,19 @@
-.imageWrapper {
+.gallery {
+  padding: 40px 0;
+  max-height: 100%;
+  overflow-y: scroll;
+}
+
+.inner {
+  height: auto;
+}
+
+.placeholderImageWrapper {
   margin: 20px 0;
   height: 80%;
 }
 
-.image {
+.placeholderImage {
   object-fit: cover;
   object-position: top;
   height: 100%;
