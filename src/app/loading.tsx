@@ -1,15 +1,11 @@
-import { Flex } from 'antd'
-import React from 'react'
+import { Flex } from 'antd';
+import React from 'react';
 
-import Image from 'next/image'
+import Image from 'next/image';
 
 const Loading = () => {
   return (
-    <Flex
-      className='full-height'
-      justify='center'
-      align='center'
-    >
+    <Flex className='full-height' justify='center' align='center'>
       <Image
         src='/loading.gif'
         alt='Loading'
@@ -19,8 +15,7 @@ const Loading = () => {
         unoptimized
       />
     </Flex>
-  )
-}
+  );
+};
 
-export default Loading
-
+export default Loading;

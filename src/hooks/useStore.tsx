@@ -1,9 +1,7 @@
-import { useContext } from 'react'
+import { useContext } from 'react';
 
-import { StoreContext } from '@/store/provider'
+import { StoreContext } from '@/store/provider';
 
-const useStore = () => (
-  useContext(StoreContext)
-)
+const useStore = () => useContext(StoreContext);
 
-export default useStore
+export default useStore;

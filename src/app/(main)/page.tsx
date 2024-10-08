@@ -1,39 +1,32 @@
-import { Col, Row } from 'antd'
-import { Metadata } from 'next'
-import React from 'react'
+import { Col, Row } from 'antd';
+import { Metadata } from 'next';
+import React from 'react';
 
-import Image from './components/image'
-import Form from './components/form'
+import Image from './components/image';
+import Form from './components/form';
 
-import { getAllCats } from '@/api/allCats'
-import { getCatImage } from '@/api/catImage'
+import { getAllCats } from '@/api/allCats';
+import { getCatImage } from '@/api/catImage';
 
-import { getRandomArrayElement } from '@/utils'
+import { getRandomArrayElement } from '@/utils';
 
-import styles from './page.module.scss'
+import styles from './page.module.scss';
 
 export const metadata: Metadata = {
-  title: 'Генератор котиков - Главная'
+  title: 'Генератор котиков - Главная',
 };
 
 const Home = async () => {
-  const cats = await getAllCats()
-  
-  const id = getRandomArrayElement(cats.image)
-  
-  const src = await getCatImage(id)
-  
+  const cats = await getAllCats();
+
+  const id = getRandomArrayElement(cats.image);
+
+  const src = await getCatImage(id);
+
   return (
     <div className='inner'>
-      <Row
-        align='middle'
-        justify='center'
-        className='full-height'
-        gutter={16}
-      >
-        <Col
-          flex='560px'
-        >
+      <Row align='middle' justify='center' className='full-height' gutter={16}>
+        <Col flex='560px'>
           <Image
             alt={id}
             className={styles.image}
@@ -49,14 +42,11 @@ const Home = async () => {
             offset: 1,
           }}
         >
-          <Form
-            className={styles.form}
-            cats={cats}
-          />
+          <Form className={styles.form} cats={cats} />
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
 export default Home;

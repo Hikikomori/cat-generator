@@ -1,21 +1,16 @@
-'use client'
+'use client';
 
-import { Flex, Typography } from 'antd'
-import Image from 'next/image'
+import { Flex, Typography } from 'antd';
+import Image from 'next/image';
 
-const { Title } = Typography
+const { Title } = Typography;
 
-import styles from './error.module.scss'
+import styles from './error.module.scss';
 
 const Error = () => {
   return (
     <div className='inner'>
-      <Flex
-        className='full-height'
-        vertical
-        justify='center'
-        align='center'
-      >
+      <Flex className='full-height' vertical justify='center' align='center'>
         <Title>Упс, похоже котики уронили сервер, попробуйте позже</Title>
         <div className={styles.imageWrapper}>
           <Image
@@ -29,8 +24,7 @@ const Error = () => {
         </div>
       </Flex>
     </div>
-  )
-}
+  );
+};
 
-export default Error
-
+export default Error;

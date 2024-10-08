@@ -1,11 +1,11 @@
-import { ImageProps } from 'antd'
-import { ReactElement } from 'react'
+import { ImageProps } from 'antd';
+import { ReactElement } from 'react';
 
 export interface IAdditionalToolbarAction {
-  icon: ReactElement,
-  tooltip: string,
+  icon: ReactElement;
+  tooltip: string;
 }
 
 export interface IImageProps extends ImageProps {
-  additionalToolbarActions?: IAdditionalToolbarAction[]
+  additionalToolbarActions?: IAdditionalToolbarAction[];
 }

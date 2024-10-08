@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Button,
@@ -12,30 +12,26 @@ import {
   Slider,
   Row,
   Tooltip,
-} from 'antd'
-import cn from 'classnames'
-import { observer } from 'mobx-react-lite'
-import { FC, useEffect, useState } from 'react'
-import { useForm, useWatch } from 'react-hook-form'
-import { FormItem } from 'react-hook-form-antd'
-import queryString from 'query-string'
+} from 'antd';
+import cn from 'classnames';
+import { observer } from 'mobx-react-lite';
+import { FC, useEffect, useState } from 'react';
+import { useForm, useWatch } from 'react-hook-form';
+import { FormItem } from 'react-hook-form-antd';
+import queryString from 'query-string';
 
-import FilterModal from './modals/Filter'
-import TextModal from './modals/Text'
+import FilterModal from './modals/Filter';
+import TextModal from './modals/Text';
 
-import { getCatImage } from '@/api/catImage'
-import { useStore } from '@/hooks'
-import { getRandomArrayElement } from '@/utils'
+import { getCatImage } from '@/api/catImage';
+import { useStore } from '@/hooks';
+import { getRandomArrayElement } from '@/utils';
 
-import styles from './form.module.scss'
+import styles from './form.module.scss';
 
-import {
-  IGetCatImageParams,
-  IFormValues,
-  IFormProps as IProps
-} from './types'
+import { IGetCatImageParams, IFormValues, IFormProps as IProps } from './types';
 
-const { useNotification } = notification
+const { useNotification } = notification;
 
 const defaultValues: IFormValues = {
   type: 'image',
@@ -50,69 +46,56 @@ const defaultValues: IFormValues = {
   hue: 0,
   lightness: 0,
   color: undefined,
-  mode: 'new'
-}
+  mode: 'new',
+};
 
 const filterOptions = [
   {
     label: 'Монохромный',
-    value: 'mono'
+    value: 'mono',
   },
   {
     label: 'Негатив',
-    value: 'negate'
+    value: 'negate',
   },
   {
     label: 'Настраиваемый',
-    value: 'custom'
-  }
-]
+    value: 'custom',
+  },
+];
 
 const typeOptions = [
   {
     label: 'Картинка',
-    value: 'image'
+    value: 'image',
   },
   {
     label: 'GIF',
-    value: 'gif'
-  }
-]
+    value: 'gif',
+  },
+];
 
-const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
-  const {
-    id: storedId,
-    setId,
-    setParams,
-    setSrc,
-    setText
-  } = useStore();
-  
-  const {
-    handleSubmit,
-    control,
-    setValue
-  } = useForm<IFormValues>({
-    defaultValues
-  })
-  
-  const [
-    notificationApi,
-    notificationContextHolder
-  ] = useNotification()
-  
-  const [isLoading, setIsLoading] = useState(false)
-  const [filterModalOpen, setFilterModalOpen] = useState(false)
-  const [textModalOpen, setTextModalOpen] = useState(false)
-  const [submittedType, setSubmittedType] = useState(defaultValues.type)
-  
+const Form: FC<IProps> = observer(({ cats, className, ...restProps }) => {
+  const { id: storedId, setId, setParams, setSrc, setText } = useStore();
+
+  const { handleSubmit, control, setValue } = useForm<IFormValues>({
+    defaultValues,
+  });
+
+  const [notificationApi, notificationContextHolder] = useNotification();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [filterModalOpen, setFilterModalOpen] = useState(false);
+  const [textModalOpen, setTextModalOpen] = useState(false);
+  const [submittedType, setSubmittedType] = useState(defaultValues.type);
+
   const watch = useWatch({
-    control
-  })
-  
+    control,
+  });
+
   const handleFormSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-    
+    setIsLoading(true);
+
     const {
       type,
       text,
@@ -126,29 +109,29 @@ const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
       hue,
       lightness,
       color,
-      mode
-    } = data
-    
-    let id = storedId
-    
+      mode,
+    } = data;
+
+    let id = storedId;
+
     if (mode === 'new') {
-      id = getRandomArrayElement(cats[type])
+      id = getRandomArrayElement(cats[type]);
     }
-    
+
     let params: IGetCatImageParams = {
       blur,
-      filter
-    }
-    
+      filter,
+    };
+
     if (text) {
       params = {
         ...params,
         font,
         fontSize,
-        fontColor
-      }
+        fontColor,
+      };
     }
-    
+
     if (filter === 'custom') {
       params = {
         ...params,
@@ -158,75 +141,75 @@ const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
         lightness,
         r: color?.r,
         g: color?.g,
-        b: color?.b
-      }
+        b: color?.b,
+      };
     }
-    
+
     try {
-      const paramsString = queryString.stringify(params)
-      
-      const src = await getCatImage(id, text, paramsString)
-      setSubmittedType(type)
-      setId(id)
-      setParams(paramsString)
-      setSrc(src)
-      setText(text)
+      const paramsString = queryString.stringify(params);
+
+      const src = await getCatImage(id, text, paramsString);
+      setSubmittedType(type);
+      setId(id);
+      setParams(paramsString);
+      setSrc(src);
+      setText(text);
     } catch (err) {
       notificationApi.error({
         description: 'Попробуйте ещё раз',
         message: 'Ошибка при получении котика',
         pauseOnHover: true,
-        showProgress: true
-      })
+        showProgress: true,
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  })
-  
+  });
+
   const handleBlurChange = (value: number | null) => {
-    setValue('blur', value ?? 0)
-  }
-  
+    setValue('blur', value ?? 0);
+  };
+
   const handleTextModalOpen = () => {
-    setTextModalOpen(true)
-  }
-  
+    setTextModalOpen(true);
+  };
+
   const handleTextModalClose = () => {
-    setTextModalOpen(false)
-  }
-  
+    setTextModalOpen(false);
+  };
+
   const handleFilterModalOpen = () => {
-    setFilterModalOpen(true)
-  }
-  
+    setFilterModalOpen(true);
+  };
+
   const handleFilterModalClose = () => {
-    setFilterModalOpen(false)
-  }
-  
+    setFilterModalOpen(false);
+  };
+
   const handleSubmitNewClick = () => {
-    setValue('mode', 'new')
-  }
-  
+    setValue('mode', 'new');
+  };
+
   const handleSubmitEditClick = () => {
-    setValue('mode', 'edit')
-  }
-  
+    setValue('mode', 'edit');
+  };
+
   useEffect(() => {
-    if(watch.filter !== 'custom') {
+    if (watch.filter !== 'custom') {
       const filterFields = [
         'brightness',
         'saturation',
         'hue',
         'lightness',
-        'color'
-      ] as const
-      
+        'color',
+      ] as const;
+
       for (const field of filterFields) {
-        setValue(field, defaultValues[field])
+        setValue(field, defaultValues[field]);
       }
     }
-  },[setValue, watch.filter])
-  
+  }, [setValue, watch.filter]);
+
   return (
     <AntForm
       className={cn(styles.form, className)}
@@ -235,9 +218,7 @@ const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
     >
       {notificationContextHolder}
       <FormItem control={control} name='type' label='Тип'>
-        <Select
-          options={typeOptions}
-        />
+        <Select options={typeOptions} />
       </FormItem>
       <Row gutter={16}>
         <Col flex='auto'>
@@ -260,14 +241,11 @@ const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
       <Row gutter={16}>
         <Col flex='auto'>
           <FormItem control={control} name='blur' label='Размытие'>
-            <Slider
-              min={0}
-              max={20}
-            />
+            <Slider min={0} max={20} />
           </FormItem>
         </Col>
         <Col>
-          <AntForm.Item name='blur' >
+          <AntForm.Item name='blur'>
             <InputNumber
               changeOnWheel
               onChange={handleBlurChange}
@@ -280,11 +258,7 @@ const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
       </Row>
       <Row gutter={16}>
         <Col flex='auto'>
-          <FormItem
-            control={control}
-            name='filter'
-            label='Фильтр'
-          >
+          <FormItem control={control} name='filter' label='Фильтр'>
             <Select
               allowClear
               options={filterOptions}
@@ -295,10 +269,7 @@ const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
         {watch.filter === 'custom' && (
           <Col>
             <AntForm.Item>
-              <Button
-                onClick={handleFilterModalOpen}
-                type='link'
-              >
+              <Button onClick={handleFilterModalOpen} type='link'>
                 Настроить
               </Button>
             </AntForm.Item>
@@ -331,10 +302,7 @@ const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
         <AntForm.Item>
           <Tooltip
             title='Нельзя менять котика при смене типа'
-            open={submittedType === watch.type
-              ? false
-              : undefined
-            }
+            open={submittedType === watch.type ? false : undefined}
           >
             <Button
               disabled={submittedType !== watch.type}
@@ -349,7 +317,7 @@ const Form: FC<IProps> = observer(({cats, className, ...restProps}) => {
         </AntForm.Item>
       </Flex>
     </AntForm>
-  )
-})
+  );
+});
 
 export default Form;

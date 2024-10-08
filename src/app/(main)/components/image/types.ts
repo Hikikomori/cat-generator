@@ -1,5 +1,5 @@
-import { ImageProps } from 'antd'
+import { ImageProps } from 'antd';
 
 export interface IImageProps extends ImageProps {
-  id: string
+  id: string;
 }

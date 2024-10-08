@@ -1,19 +1,14 @@
-import { Button, Flex } from 'antd'
-import Title from 'antd/lib/typography/Title'
-import Image from 'next/image'
-import Link from 'next/link'
+import { Button, Flex } from 'antd';
+import Title from 'antd/lib/typography/Title';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import styles from './error.module.scss'
+import styles from './error.module.scss';
 
 const NotFound = () => {
   return (
     <div className='inner'>
-      <Flex
-        className='full-height'
-        vertical
-        justify='center'
-        align='center'
-      >
+      <Flex className='full-height' vertical justify='center' align='center'>
         <Title>Тут ничего нет, как вы сюда попали?</Title>
         <div className={styles.imageWrapper}>
           <Image
@@ -32,8 +27,7 @@ const NotFound = () => {
         </Link>
       </Flex>
     </div>
-  )
-}
+  );
+};
 
-export default NotFound
-
+export default NotFound;
