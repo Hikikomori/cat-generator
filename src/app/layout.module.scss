@@ -1,15 +1,17 @@
-.header_link {
-  color: #fff;
-}
-
-.header_title {
+.header_logo {
+  color: rgb(255 255 255 / 90%);
   font-size: 26px;
   font-weight: 700;
+  transform: translateY(1px);
+
+  &:hover {
+    color: rgb(255 255 255 / 90%);
+  }
 }
 
 .content {
-  background: #e7dfdd;
   height: 100%;
+  background: #e7dfdd;
 }
 
 

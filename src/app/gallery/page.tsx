@@ -1,16 +1,16 @@
 'use client'
 
-import { Flex, Image as AntImage, notification, Typography } from 'antd'
-import { FC, ReactElement, useEffect, useState } from 'react'
+import { Flex, notification, Typography } from 'antd'
+import cn from 'classnames'
 import { observer } from 'mobx-react-lite'
+import Image from 'next/image'
+import { FC, ReactElement, useEffect, useState } from 'react'
+
 import { useStore } from '@/hooks'
 
 import GalleryImage from './components/image'
 
 import styles from './gallery.module.scss'
-
-import Image from 'next/image'
-import cn from 'classnames'
 
 const { useNotification } = notification
 const { Title } = Typography
@@ -54,7 +54,6 @@ const Gallery: FC = observer(() => {
     <Flex gap={25} wrap>
       {galleryList.map((uuid) => (
         <GalleryImage
-          alt={uuid}
           key={uuid}
           notificationApi={notificationApi}
           uuid={uuid}
@@ -69,15 +68,15 @@ const Gallery: FC = observer(() => {
     setIsClient(true)
   }, [])
   
-  if (!isClient) return renderPlaceholder()
+  if (!isClient) return null
   
   return (
     <div className={cn(styles.gallery, 'full-height')}>
       {notificationContextHolder}
       <div className={cn('inner', {
-        [styles.inner]: isClient && galleryList.length,
+        [styles.inner]: galleryList.length,
       })}>
-        {!isClient || !galleryList.length
+        {!galleryList.length
           ? renderPlaceholder()
           : renderGallery()
         }

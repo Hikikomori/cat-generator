@@ -5,15 +5,15 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'cataas.com',
-      }
-    ]
+      },
+    ],
   },
   logging: {
     fetches: {
       hmrRefreshes: true,
-      fullUrl: true
-    }
-  }
+      fullUrl: true,
+    },
+  },
 };
 
 export default nextConfig;

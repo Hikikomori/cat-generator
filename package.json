@@ -7,7 +7,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
@@ -16,7 +17,7 @@
     "classnames": "^2.5.1",
     "mobx-react-lite": "^4.0.7",
     "neko-ts": "^0.0.6",
-    "next": "^14.2.12",
+    "next": "^14.2.14",
     "query-string": "^9.1.0",
     "react": "^18",
     "react-dom": "^18",
@@ -31,8 +32,14 @@
     "@types/uuid": "^10.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.9",
+    "husky": "^9.1.6",
+    "prettier": "^3.3.3",
     "sass": "^1.78.0",
     "sharp": "^0.33.5",
+    "stylelint": "^16.9.0",
+    "stylelint-config-idiomatic-order": "^10.0.0",
+    "stylelint-config-standard": "^36.0.1",
+    "stylelint-config-standard-scss": "^13.1.0",
     "typescript": "^5"
   }
 }
