@@ -1,40 +1,30 @@
-'use client'
+'use client';
 
-import { Flex, notification, Typography } from 'antd'
-import cn from 'classnames'
-import { observer } from 'mobx-react-lite'
-import Image from 'next/image'
-import { FC, ReactElement, useEffect, useState } from 'react'
+import { Flex, notification, Typography } from 'antd';
+import cn from 'classnames';
+import { observer } from 'mobx-react-lite';
+import Image from 'next/image';
+import { FC, ReactElement, useEffect, useState } from 'react';
 
-import { useStore } from '@/hooks'
+import { useStore } from '@/hooks';
 
-import GalleryImage from './components/image'
+import GalleryImage from './components/image';
 
-import styles from './gallery.module.scss'
+import styles from './gallery.module.scss';
 
-const { useNotification } = notification
-const { Title } = Typography
+const { useNotification } = notification;
+const { Title } = Typography;
 
 const Gallery: FC = observer(() => {
-  const [
-    notificationApi,
-    notificationContextHolder
-  ] = useNotification()
-  
-  const [isClient, setIsClient] = useState(false)
-  
-  const {
-    galleryList
-  } = useStore()
-  
+  const [notificationApi, notificationContextHolder] = useNotification();
+
+  const [isClient, setIsClient] = useState(false);
+
+  const { galleryList } = useStore();
+
   const renderPlaceholder = (): ReactElement => {
     return (
-      <Flex
-        className='full-height'
-        vertical
-        justify='center'
-        align='center'
-      >
+      <Flex className='full-height' vertical justify='center' align='center'>
         <Title>В галерее пусто. Добавьте котиков с главной страницы</Title>
         <div className={styles.placeholderImageWrapper}>
           <Image
@@ -47,9 +37,9 @@ const Gallery: FC = observer(() => {
           />
         </div>
       </Flex>
-    )
-  }
-  
+    );
+  };
+
   const renderGallery = (): ReactElement => (
     <Flex gap={25} wrap>
       {galleryList.map((uuid) => (
@@ -62,27 +52,26 @@ const Gallery: FC = observer(() => {
         />
       ))}
     </Flex>
-  )
-  
+  );
+
   useEffect(() => {
-    setIsClient(true)
-  }, [])
-  
-  if (!isClient) return null
-  
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
+
   return (
     <div className={cn(styles.gallery, 'full-height')}>
       {notificationContextHolder}
-      <div className={cn('inner', {
-        [styles.inner]: galleryList.length,
-      })}>
-        {!galleryList.length
-          ? renderPlaceholder()
-          : renderGallery()
-        }
+      <div
+        className={cn('inner', {
+          [styles.inner]: galleryList.length,
+        })}
+      >
+        {!galleryList.length ? renderPlaceholder() : renderGallery()}
       </div>
     </div>
-  )
-})
+  );
+});
 
-export default Gallery
+export default Gallery;

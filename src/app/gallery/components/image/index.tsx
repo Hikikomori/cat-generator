@@ -16,16 +16,10 @@ import { IImageProps as IProps } from './types';
 import styles from './image.module.scss';
 
 const renderSpinner = (): ReactElement => (
-  <Flex
-    className='full-height'
-    align="center"
-    justify="center"
-  >
-    <Spin
-      size='large'
-    />
+  <Flex className='full-height' align='center' justify='center'>
+    <Spin size='large' />
   </Flex>
-)
+);
 
 const Image: FC<IProps> = observer((props) => {
   const { notificationApi, uuid, ...restProps } = props;
