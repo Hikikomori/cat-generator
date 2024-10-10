@@ -2,7 +2,7 @@
 
 Генератор котиков с фильтрацией и галереей
 
-## Стэк
+## Стeк
 
 Next.js, TypeScript, Ant Design, React Hook Form, Mobx, SCSS
 
