@@ -1,0 +1,7 @@
+services:
+  app:
+    image: cat-generator
+    container_name: cat-generator
+    restart: always
+    ports:
+      - "8080:3000"

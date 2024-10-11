@@ -23,6 +23,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "react-hook-form-antd": "^1.1.1",
+    "sharp": "^0.33.5",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
@@ -35,7 +36,6 @@
     "husky": "^9.1.6",
     "prettier": "^3.3.3",
     "sass": "^1.78.0",
-    "sharp": "^0.33.5",
     "stylelint": "^16.9.0",
     "stylelint-config-idiomatic-order": "^10.0.0",
     "stylelint-config-standard": "^36.0.1",
