@@ -1,5 +1,6 @@
-import { Image as AntImage, Tooltip } from 'antd';
+import { Image as AntImage, Space, Tooltip } from 'antd';
 import {
+  EyeOutlined,
   RotateLeftOutlined,
   RotateRightOutlined,
   SwapOutlined,
@@ -16,6 +17,13 @@ import { IImageProps as IProps } from './types';
 
 const Image: FC<IProps> = (props) => {
   const { additionalToolbarActions, className, src, ...restProps } = props;
+
+  const mask: ReactElement = (
+    <Space>
+      <EyeOutlined />
+      Просмотр
+    </Space>
+  );
 
   const toolbarRender = (
     _node: ReactElement,
@@ -93,7 +101,8 @@ const Image: FC<IProps> = (props) => {
       src={src}
       className={cn(styles.image, className)}
       preview={{
-        toolbarRender: toolbarRender,
+        mask,
+        toolbarRender,
       }}
       {...restProps}
     />
