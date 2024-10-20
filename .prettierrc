@@ -1,6 +1,7 @@
 {
   "jsxSingleQuote": true,
   "singleQuote": true,
+  "endOfLine": "crlf",
   "overrides": [
     {
       "files": ["*.json", "*.yml"],
