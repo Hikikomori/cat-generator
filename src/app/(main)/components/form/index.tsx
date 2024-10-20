@@ -12,6 +12,7 @@ import {
   Slider,
   Row,
   Tooltip,
+  Spin,
 } from 'antd';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
@@ -78,7 +79,7 @@ const typeOptions = [
 const Form: FC<IProps> = observer(({ cats, className, ...restProps }) => {
   const { id: storedId, setId, setParams, setSrc, setText } = useStore();
 
-  const { handleSubmit, control, setValue } = useForm<IFormValues>({
+  const { handleSubmit, control, reset, setValue } = useForm<IFormValues>({
     defaultValues,
   });
 
@@ -186,6 +187,10 @@ const Form: FC<IProps> = observer(({ cats, className, ...restProps }) => {
     setFilterModalOpen(false);
   };
 
+  const handleResetClick = () => {
+    reset();
+  };
+
   const handleSubmitNewClick = () => {
     setValue('mode', 'new');
   };
@@ -211,112 +216,117 @@ const Form: FC<IProps> = observer(({ cats, className, ...restProps }) => {
   }, [setValue, watch.filter]);
 
   return (
-    <AntForm
-      className={cn(styles.form, className)}
-      onFinish={handleFormSubmit}
-      {...restProps}
-    >
-      {notificationContextHolder}
-      <FormItem control={control} name='type' label='Тип'>
-        <Select options={typeOptions} />
-      </FormItem>
-      <Row gutter={16}>
-        <Col flex='auto'>
-          <FormItem control={control} name='text' label='Текст'>
-            <Input />
-          </FormItem>
-        </Col>
-        <Col>
-          <AntForm.Item>
-            <Button
-              disabled={!watch.text}
-              onClick={handleTextModalOpen}
-              type='link'
-            >
-              Настроить
-            </Button>
-          </AntForm.Item>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col flex='auto'>
-          <FormItem control={control} name='blur' label='Размытие'>
-            <Slider min={0} max={20} />
-          </FormItem>
-        </Col>
-        <Col>
-          <AntForm.Item name='blur'>
-            <InputNumber
-              changeOnWheel
-              onChange={handleBlurChange}
-              min={0}
-              max={20}
-              value={watch.blur}
-            />
-          </AntForm.Item>
-        </Col>
-      </Row>
-      <Row gutter={16}>
-        <Col flex='auto'>
-          <FormItem control={control} name='filter' label='Фильтр'>
-            <Select
-              allowClear
-              options={filterOptions}
-              placeholder='Не выбран'
-            />
-          </FormItem>
-        </Col>
-        {watch.filter === 'custom' && (
+    <Spin size='large' spinning={isLoading}>
+      <AntForm
+        className={cn(styles.form, className)}
+        onFinish={handleFormSubmit}
+        {...restProps}
+      >
+        {notificationContextHolder}
+        <FormItem control={control} name='type' label='Тип'>
+          <Select options={typeOptions} />
+        </FormItem>
+        <Row gutter={16}>
+          <Col flex='auto'>
+            <FormItem control={control} name='text' label='Текст'>
+              <Input />
+            </FormItem>
+          </Col>
           <Col>
             <AntForm.Item>
-              <Button onClick={handleFilterModalOpen} type='link'>
+              <Button
+                disabled={!watch.text}
+                onClick={handleTextModalOpen}
+                type='link'
+              >
                 Настроить
               </Button>
             </AntForm.Item>
           </Col>
-        )}
-      </Row>
-      <FilterModal
-        control={control}
-        open={filterModalOpen}
-        onClose={handleFilterModalClose}
-        onSetValue={setValue}
-      />
-      <TextModal
-        control={control}
-        open={textModalOpen}
-        onClose={handleTextModalClose}
-        onSetValue={setValue}
-      />
-      <Flex gap={16}>
-        <AntForm.Item>
-          <Button
-            type='primary'
-            htmlType='submit'
-            loading={isLoading}
-            onClick={handleSubmitNewClick}
-          >
-            Получить нового котика
-          </Button>
-        </AntForm.Item>
-        <AntForm.Item>
-          <Tooltip
-            title='Нельзя менять котика при смене типа'
-            open={submittedType === watch.type ? false : undefined}
-          >
+        </Row>
+        <Row gutter={16}>
+          <Col flex='auto'>
+            <FormItem control={control} name='blur' label='Размытие'>
+              <Slider min={0} max={20} />
+            </FormItem>
+          </Col>
+          <Col>
+            <AntForm.Item name='blur'>
+              <InputNumber
+                changeOnWheel
+                onChange={handleBlurChange}
+                min={0}
+                max={20}
+                value={watch.blur}
+              />
+            </AntForm.Item>
+          </Col>
+        </Row>
+        <Row gutter={16}>
+          <Col flex='auto'>
+            <FormItem control={control} name='filter' label='Фильтр'>
+              <Select
+                allowClear
+                options={filterOptions}
+                placeholder='Не выбран'
+              />
+            </FormItem>
+          </Col>
+          {watch.filter === 'custom' && (
+            <Col>
+              <AntForm.Item>
+                <Button onClick={handleFilterModalOpen} type='link'>
+                  Настроить
+                </Button>
+              </AntForm.Item>
+            </Col>
+          )}
+        </Row>
+        <FilterModal
+          control={control}
+          open={filterModalOpen}
+          onClose={handleFilterModalClose}
+          onSetValue={setValue}
+        />
+        <TextModal
+          control={control}
+          open={textModalOpen}
+          onClose={handleTextModalClose}
+          onSetValue={setValue}
+        />
+        <Flex gap={16}>
+          <AntForm.Item>
             <Button
-              disabled={submittedType !== watch.type}
               type='primary'
               htmlType='submit'
-              loading={isLoading}
-              onClick={handleSubmitEditClick}
+              onClick={handleSubmitNewClick}
             >
-              Изменить текущего котика
+              Получить нового котика
             </Button>
-          </Tooltip>
-        </AntForm.Item>
-      </Flex>
-    </AntForm>
+          </AntForm.Item>
+          <AntForm.Item>
+            <Tooltip
+              title='Нельзя менять котика при смене типа'
+              open={submittedType === watch.type ? false : undefined}
+            >
+              <Button
+                disabled={submittedType !== watch.type}
+                type='primary'
+                htmlType='submit'
+                onClick={handleSubmitEditClick}
+              >
+                Изменить текущего котика
+              </Button>
+            </Tooltip>
+          </AntForm.Item>
+          <AntForm.Item className={styles.reset}>
+            <Button type='default' htmlType='reset' onClick={handleResetClick}>
+              Сбросить
+            </Button>
+          </AntForm.Item>
+        </Flex>
+      </AntForm>
+    </Spin>
   );
 });
 
