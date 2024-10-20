@@ -34,6 +34,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.9",
     "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "sass": "^1.78.0",
     "stylelint": "^16.9.0",
@@ -41,5 +42,17 @@
     "stylelint-config-standard": "^36.0.1",
     "stylelint-config-standard-scss": "^13.1.0",
     "typescript": "^5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*": [
+      "next lint",
+      "prettier . --write",
+      "stylelint \"**/*.{scss,css}\" --fix"
+    ]
   }
 }
