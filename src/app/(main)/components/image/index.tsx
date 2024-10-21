@@ -1,9 +1,9 @@
 'use client';
 
-import { DownloadOutlined } from '@ant-design/icons';
-import { notification } from 'antd';
+import { HeartOutlined } from '@ant-design/icons';
+import { Button, notification, Tooltip } from 'antd';
 import { observer } from 'mobx-react-lite';
-import React, { FC, useEffect } from 'react';
+import React, { FC, MouseEvent, ReactElement, useEffect } from 'react';
 
 import ImageCore from '@/components/image';
 import { IAdditionalToolbarAction } from '@/components/image/types';
@@ -20,7 +20,9 @@ const Image: FC<IProps> = observer((props) => {
 
   const { addToGallery, src: storedSrc, setId, setSrc } = useStore();
 
-  const handleAddToGalleryClick = async () => {
+  const handleAddToGalleryClick = async (evt: MouseEvent) => {
+    evt.stopPropagation()
+    
     await addToGallery();
 
     notificationApi.success({
@@ -31,9 +33,21 @@ const Image: FC<IProps> = observer((props) => {
   };
 
   const addToGalleryAction: IAdditionalToolbarAction = {
-    icon: <DownloadOutlined onClick={handleAddToGalleryClick} />,
+    icon: <HeartOutlined onClick={handleAddToGalleryClick} />,
     tooltip: 'Добавить в галерею',
   };
+  
+  const renderMaskButton = (): ReactElement => (
+    <Tooltip title='Добавить в галерею' placement='bottomRight'>
+      <Button
+        onClick={handleAddToGalleryClick}
+        size='large'
+        type='primary'
+        shape='circle'
+        icon={<HeartOutlined />}
+      />
+    </Tooltip>
+  )
 
   useEffect(() => {
     src && setSrc(src);
@@ -46,6 +60,7 @@ const Image: FC<IProps> = observer((props) => {
       <ImageCore
         additionalToolbarActions={[addToGalleryAction]}
         alt={alt}
+        maskButton={renderMaskButton()}
         src={storedSrc || src}
         {...restProps}
       />

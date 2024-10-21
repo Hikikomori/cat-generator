@@ -16,13 +16,20 @@ import styles from './image.module.scss';
 import { IImageProps as IProps } from './types';
 
 const Image: FC<IProps> = (props) => {
-  const { additionalToolbarActions, className, src, ...restProps } = props;
+  const { additionalToolbarActions, className, maskButton, src, ...restProps } = props;
 
   const mask: ReactElement = (
-    <Space>
-      <EyeOutlined />
-      Просмотр
-    </Space>
+    <>
+      <Space>
+        <EyeOutlined />
+        Просмотр
+      </Space>
+      {maskButton && (
+        <span className={styles.maskButton}>
+          {maskButton}
+        </span>
+      )}
+    </>
   );
 
   const toolbarRender = (

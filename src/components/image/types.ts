@@ -8,4 +8,5 @@ export interface IAdditionalToolbarAction {
 
 export interface IImageProps extends ImageProps {
   additionalToolbarActions?: IAdditionalToolbarAction[];
+  maskButton?: ReactElement;
 }

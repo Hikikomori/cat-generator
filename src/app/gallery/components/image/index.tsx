@@ -1,9 +1,9 @@
 'use client';
 
-import { Flex, Spin } from 'antd';
+import { Button, Flex, Spin, Tooltip } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { observer } from 'mobx-react-lite';
-import React, { FC, ReactElement } from 'react';
+import React, { FC, MouseEvent, ReactElement } from 'react';
 
 import ImageCore from '@/components/image';
 import { IAdditionalToolbarAction } from '@/components/image/types';
@@ -28,7 +28,9 @@ const Image: FC<IProps> = observer((props) => {
 
   const { id, src, params, text } = galleryItems[uuid];
 
-  const handleRemoveFromGalleryClick = async () => {
+  const handleRemoveFromGalleryClick = async (evt: MouseEvent) => {
+    evt.stopPropagation()
+    
     await removeFromGallery(uuid);
 
     notificationApi.success({
@@ -42,11 +44,25 @@ const Image: FC<IProps> = observer((props) => {
     icon: <DeleteOutlined onClick={handleRemoveFromGalleryClick} />,
     tooltip: 'Удалить из галереи',
   };
+  
+  const renderMaskButton = (): ReactElement => (
+    <Tooltip title='Удалить из галереи' placement='bottomRight'>
+      <Button
+        danger
+        onClick={handleRemoveFromGalleryClick}
+        size='large'
+        type='primary'
+        shape='circle'
+        icon={<DeleteOutlined />}
+      />
+    </Tooltip>
+  )
 
   return (
     <ImageCore
       additionalToolbarActions={[removeFromGalleryAction]}
       className={styles.image}
+      maskButton={renderMaskButton()}
       placeholder={renderSpinner()}
       src={src || getCatImageUrl(id, text, params)}
       {...restProps}
