@@ -1,5 +1,5 @@
 export interface ICat {
-  _id: string;
+  id: string;
   mimetype: string;
   size: number;
   tags: string[];

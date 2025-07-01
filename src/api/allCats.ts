@@ -1,7 +1,7 @@
 import { ICat, ICats } from './types';
 
 const isCats = (cats: unknown): cats is ICat[] =>
-  (cats as ICat[]).every((cat) => cat._id.length > 0);
+  (cats as ICat[]).every((cat) => cat.id.length > 0);
 
 const url = `${process.env.NEXT_PUBLIC_DOMAIN}/api/cats?limit=-1`;
 
@@ -22,13 +22,13 @@ export const getAllCats = async (): Promise<ICats> => {
 
   return cats.reduce(
     (acc: ICats, cat: ICat) => {
-      const { _id, mimetype } = cat;
+      const { id, mimetype } = cat;
 
       const type = mimetype === 'image/gif' ? 'gif' : 'image';
 
       return {
         ...acc,
-        [type]: [...acc[type], _id],
+        [type]: [...acc[type], id],
       };
     },
     {
