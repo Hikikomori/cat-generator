@@ -3,20 +3,36 @@ import { ICat, ICats } from './types';
 const isCats = (cats: unknown): cats is ICat[] =>
   (cats as ICat[]).every((cat) => cat.id.length > 0);
 
-const url = `${process.env.NEXT_PUBLIC_DOMAIN}/api/cats?limit=-1`;
+const getCatsUrl = (count: number): string => (
+  `${process.env.NEXT_PUBLIC_DOMAIN}/api/cats?limit=${count}`
+);
+
+const countUrl = `${process.env.NEXT_PUBLIC_DOMAIN}/api/count`;
 
 export const getAllCats = async (): Promise<ICats> => {
-  const response = await fetch(url, {
+  const countResponse = await fetch(countUrl, {
+    next: {
+      revalidate: 10,
+    },
+  });
+  
+  if (!countResponse.ok) {
+    throw new Error('Failed to fetch count');
+  }
+  
+  const { count } = await countResponse.json();
+  
+  const catsResponse = await fetch(getCatsUrl(count), {
     next: {
       revalidate: 10,
     },
   });
 
-  if (!response.ok) {
+  if (!catsResponse.ok) {
     throw new Error('Failed to fetch cats');
   }
 
-  const cats = await response.json();
+  const cats = await catsResponse.json();
 
   if (!isCats(cats)) throw new Error('Cats data error');
 
